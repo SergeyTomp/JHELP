@@ -5,6 +5,8 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import jhelp.repos.DefinitionRepository;
 import jhelp.repos.TermRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +29,7 @@ public class GUIFrame extends JFrame {
     private JMenu Help;
     private TermRepository termRepository;
     private DefinitionRepository definitionRepository;
+    private final Logger logger = LoggerFactory.getLogger(GUIFrame.class);
 
     public void setTermRepository(TermRepository termRepository) {
         this.termRepository = termRepository;
@@ -44,6 +47,7 @@ public class GUIFrame extends JFrame {
 //        setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         exitButton.addActionListener(e -> dispose());
+        logger.info("init");
     }
 
     public static void main(String[] args) {
