@@ -10,6 +10,7 @@ public class Main {
         GUIFrame bean = ctx.getBean(GUIFrame.class);
         bean.pack();
         bean.setVisible(true);
+
     }
 
 }

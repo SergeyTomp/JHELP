@@ -31,4 +31,11 @@ public class Term {
     public List<Definition> getDefinitions() {
         return definitions;
     }
+
+    @Override
+    public String toString() {
+        return "Term{" +
+                "term='" + term + '\'' +
+                '}';
+    }
 }

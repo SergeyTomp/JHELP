@@ -3,11 +3,13 @@ package jhelp;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import jhelp.orm.Term;
 import jhelp.repos.DefinitionRepository;
 import jhelp.repos.TermRepository;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Optional;
 
 
 public class GUIFrame extends JFrame {
@@ -44,6 +46,11 @@ public class GUIFrame extends JFrame {
 //        setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         exitButton.addActionListener(e -> dispose());
+        findButton.addActionListener(e -> {
+            System.err.println(termRepository.findById(2));
+
+        });
+
     }
 
     public static void main(String[] args) {
