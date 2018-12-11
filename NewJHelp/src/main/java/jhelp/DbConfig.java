@@ -1,9 +1,7 @@
 package jhelp;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaDialect;
@@ -16,6 +14,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "jhelp.repos")
@@ -26,17 +25,18 @@ public class DbConfig {
     private String dataSourceUrl;
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws SQLException {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
         dataSource.setUrl(dataSourceUrl);
-        dataSource.setUsername("serge");
+        dataSource.setUsername("sergey");
 //        dataSource.setPassword("Gfhjkm789");
+
         return dataSource;
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws SQLException {
 
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -51,6 +51,7 @@ public class DbConfig {
         factory.setDataSource(dataSource());
         factory.setJpaDialect(jpaDialect());
         return factory;
+
     }
 
     @Bean

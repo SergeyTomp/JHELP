@@ -7,8 +7,13 @@ import jhelp.orm.Term;
 import jhelp.repos.DefinitionRepository;
 import jhelp.repos.TermRepository;
 
+import javax.sql.DataSource;
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 
@@ -29,6 +34,7 @@ public class GUIFrame extends JFrame {
     private JMenu Help;
     private TermRepository termRepository;
     private DefinitionRepository definitionRepository;
+    private DataSource dataSource;
 
     public void setTermRepository(TermRepository termRepository) {
         this.termRepository = termRepository;
@@ -36,6 +42,10 @@ public class GUIFrame extends JFrame {
 
     public void setDefinitionRepository(DefinitionRepository definitionRepository) {
         this.definitionRepository = definitionRepository;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public GUIFrame() {
@@ -47,6 +57,35 @@ public class GUIFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         exitButton.addActionListener(e -> dispose());
         findButton.addActionListener(e -> {
+//            Connection connection = null;
+//            try {
+//                connection = dataSource.getConnection("serge", "Gfhjkm789");
+//                System.err.println(connection);
+//            } catch (SQLException e1) {
+//                e1.printStackTrace();
+//            }
+//            Statement statement = null;
+//            try {
+//                statement = connection.createStatement();
+//                System.err.println(statement);
+//            } catch (SQLException e1) {
+//                e1.printStackTrace();
+//            }
+//            try {
+//
+//                statement.executeQuery("SELECT * FROM TERM");
+//                ResultSet rs = statement.getResultSet();
+//                System.err.println("rs " + rs);
+//
+//                while (rs.next()){
+//                    System.err.println(rs);
+//                    System.err.println(rs.getInt(1));
+//                    System.err.println( rs.getString(2));
+//
+//                }
+//            } catch (SQLException e1) {
+//                e1.printStackTrace();
+//            }
             System.err.println(termRepository.findById(2));
 
         });
