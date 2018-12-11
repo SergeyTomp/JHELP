@@ -3,6 +3,8 @@ package jhelp;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import jhelp.orm.Definition;
+import jhelp.orm.Term;
 import jhelp.repos.DefinitionRepository;
 import jhelp.repos.TermRepository;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Optional;
 
 
 public class GUIFrame extends JFrame {
@@ -47,6 +50,13 @@ public class GUIFrame extends JFrame {
 //        setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         exitButton.addActionListener(e -> dispose());
+
+        findButton.addActionListener(e -> {
+            Definition definition = definitionRepository.findById(1).get();
+
+            System.err.println(termRepository.findByDefinitions(definition));
+        });
+
         logger.info("init");
     }
 

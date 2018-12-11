@@ -5,4 +5,5 @@ import jhelp.orm.Definition;
 
 
 public interface DefinitionRepository extends CrudRepository<Definition, Integer> {
+
 }
