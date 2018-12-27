@@ -1,7 +1,9 @@
 package jhelp;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaDialect;
@@ -31,7 +33,8 @@ public class DbConfig {
         dataSource.setUrl(dataSourceUrl);
         dataSource.setUsername("sergey");
 //        dataSource.setPassword("Gfhjkm789");
-
+        dataSource.getConnection().createStatement().execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE (null,'DEFINITION','c:\\Apache\\db-derby-10.14.2.0-bin\\bin\\JHDB\\definition.csv',null,null,null,1)");
+        dataSource.getConnection().createStatement().execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE (null,'TERM','c:\\Apache\\db-derby-10.14.2.0-bin\\bin\\JHDB\\term.csv',null,null,null,1)");
         return dataSource;
     }
 
@@ -41,7 +44,7 @@ public class DbConfig {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setDatabase(Database.DERBY);
-        vendorAdapter.setDatabasePlatform("org.hibernate.dialect.DerbyDialect");
+        vendorAdapter.setDatabasePlatform("org.hibernate.dialect.DerbyTenSevenDialect");
 
         vendorAdapter.setGenerateDdl(true);
 

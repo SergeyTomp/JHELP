@@ -11,6 +11,7 @@ public class Main {
         bean.pack();
         bean.setVisible(true);
 
+
     }
 
 }
