@@ -15,8 +15,8 @@ public class Term {
     @Column(name = "term")
     private String term;
 
-    @OneToMany(mappedBy = "term_id")
-    List<Definition> definitions = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "term", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Definition> definitions = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -29,6 +29,13 @@ public class Term {
     public List<Definition> getDefinitions() {
         return definitions;
     }
+
+    public void addDefinition(Definition definition) {
+        definitions.add(definition);
+        definition.setTerm(this);
+    }
+
+
 
     @Override
     public String toString() {

@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface TermRepository extends CrudRepository<Term, Integer> {
-Optional<Term> findById(Integer i);
+    Optional<Term> findById(Integer i);
+    Optional<Term> findByTerm(String term);
 }

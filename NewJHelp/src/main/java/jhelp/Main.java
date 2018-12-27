@@ -9,7 +9,9 @@ public class Main {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
         GUIFrame bean = ctx.getBean(GUIFrame.class);
         bean.pack();
+        bean.initWindow();
         bean.setVisible(true);
+
 
 
     }

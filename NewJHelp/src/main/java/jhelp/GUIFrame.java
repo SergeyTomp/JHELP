@@ -10,10 +10,10 @@ import jhelp.repos.TermRepository;
 import javax.sql.DataSource;
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -32,9 +32,17 @@ public class GUIFrame extends JFrame {
     private JMenu Edit;
     private JMenu Settings;
     private JMenu Help;
+    private JTextPane textPane1;
+    private JButton clearFormButton;
+
     private TermRepository termRepository;
     private DefinitionRepository definitionRepository;
     private DataSource dataSource;
+
+    private static final String NOT_FOUND = "Definition not found";
+    private String currentTerm;
+    private byte currentDefinitionIndex = -1;
+    private List<String> foundDefinitions = new ArrayList<>();
 
     public void setTermRepository(TermRepository termRepository) {
         this.termRepository = termRepository;
@@ -55,41 +63,94 @@ public class GUIFrame extends JFrame {
 //        pack();
 //        setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        exitButton.addActionListener(e -> dispose());
-        findButton.addActionListener(e -> {
-//            Connection connection = null;
-//            try {
-//                connection = dataSource.getConnection("serge", "Gfhjkm789");
-//                System.err.println(connection);
-//            } catch (SQLException e1) {
-//                e1.printStackTrace();
-//            }
-//            Statement statement = null;
-//            try {
-//                statement = connection.createStatement();
-//                System.err.println(statement);
-//            } catch (SQLException e1) {
-//                e1.printStackTrace();
-//            }
-//            try {
-//
-//                statement.executeQuery("SELECT * FROM TERM");
-//                ResultSet rs = statement.getResultSet();
-//                System.err.println("rs " + rs);
-//
-//                while (rs.next()){
-//                    System.err.println(rs);
-//                    System.err.println(rs.getInt(1));
-//                    System.err.println( rs.getString(2));
-//
-//                }
-//            } catch (SQLException e1) {
-//                e1.printStackTrace();
-//            }
-            System.err.println(termRepository.findById(2));
 
+        exitButton.addActionListener(e -> dispose());
+
+        findButton.addActionListener(e -> {
+            editButton.setEnabled(false);
+            nextButton.setEnabled(false);
+            previousButton.setEnabled(false);
+            deleteButton.setEnabled(false);
+            String s = textField1.getText().trim();
+            Optional <Term> found = termRepository.findByTerm(s);
+            if (found.isPresent()) {
+                editButton.setEnabled(true);
+                clearFormButton.setEnabled(true);
+                foundDefinitions.clear();
+                found.get().getDefinitions().forEach(d -> foundDefinitions.add(d.getDefinition()));
+                if(foundDefinitions.size() > 1){
+                    nextButton.setEnabled(true);
+                }
+                textPane1.setText(foundDefinitions.get(0));
+            }else textPane1.setText(NOT_FOUND);
         });
 
+        clearFormButton.addActionListener(e -> {
+            textPane1.setText("");
+            textField1.setText("");
+            editButton.setEnabled(false);
+            nextButton.setEnabled(false);
+            previousButton.setEnabled(false);
+            deleteButton.setEnabled(false);
+            addButton.setEnabled(false);
+            findButton.setEnabled(false);
+            clearFormButton.setEnabled(false);
+        });
+
+        textField1.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                addButton.setEnabled(true);
+                findButton.setEnabled(true);
+                clearFormButton.setEnabled(true);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField1.getText().isEmpty()) {
+                    addButton.setEnabled(false);
+                    findButton.setEnabled(false);
+                    clearFormButton.setEnabled(false);
+                }
+            }
+        });
+
+        nextButton.addActionListener(e -> {
+            int i = foundDefinitions.indexOf(textPane1.getText());
+            if (i != foundDefinitions.size() - 1) {
+                textPane1.setText(foundDefinitions.get(++i));
+            }
+            if (i == 1) {
+                previousButton.setEnabled(true);
+            }
+            if (i == foundDefinitions.size() - 1) {
+                nextButton.setEnabled(false);
+            }
+        });
+
+        previousButton.addActionListener(e -> {
+            int i = foundDefinitions.indexOf(textPane1.getText());
+            if (i != 0) {
+                textPane1.setText(foundDefinitions.get(--i));
+            }
+            if (i == foundDefinitions.size() - 2) {
+                nextButton.setEnabled(true);
+            }
+            if (i == 0) {
+                previousButton.setEnabled(false);
+            }
+        });
+    }
+
+    public void initWindow() {
+        editButton.setEnabled(false);
+        nextButton.setEnabled(false);
+        previousButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        addButton.setEnabled(false);
+        findButton.setEnabled(false);
+        clearFormButton.setEnabled(false);
     }
 
     public static void main(String[] args) {

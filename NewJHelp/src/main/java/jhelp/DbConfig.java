@@ -33,8 +33,8 @@ public class DbConfig {
         dataSource.setUrl(dataSourceUrl);
         dataSource.setUsername("sergey");
 //        dataSource.setPassword("Gfhjkm789");
-        dataSource.getConnection().createStatement().execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE (null,'DEFINITION','c:\\Apache\\db-derby-10.14.2.0-bin\\bin\\JHDB\\definition.csv',null,null,null,1)");
-        dataSource.getConnection().createStatement().execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE (null,'TERM','c:\\Apache\\db-derby-10.14.2.0-bin\\bin\\JHDB\\term.csv',null,null,null,1)");
+//        dataSource.getConnection().createStatement().execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE (null,'DEFINITION','c:\\Apache\\db-derby-10.14.2.0-bin\\bin\\JHDB\\definition.csv',null,null,null,1)");
+//        dataSource.getConnection().createStatement().execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE (null,'TERM','c:\\Apache\\db-derby-10.14.2.0-bin\\bin\\JHDB\\term.csv',null,null,null,1)");
         return dataSource;
     }
 
